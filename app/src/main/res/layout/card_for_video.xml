@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clickable_video"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <View
+        android:id="@+id/khali_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#DADADA"
+        android:layout_marginBottom="10dp"
+        android:elevation="5dp"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="5dp"
+        android:visibility="gone"
+        android:id="@+id/thumbnail_image"/>
+
+    <LinearLayout
+        android:layout_marginLeft="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:weightSum="10"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/blacklogo"
+            />
+        <TextView
+            android:layout_weight="6"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:id="@+id/video_name"
+            android:textColor="#f1f1f1"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="Video_Name"/>
+        <ImageView
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_menu_24"
+            android:id="@+id/menu"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:orientation="horizontal"
+        android:gravity="start"
+        >
+        <TextView
+            android:layout_marginLeft="50dp"
+            android:textStyle="bold"
+            android:id="@+id/video_playlist"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:textColor="#a0a0a0"
+            android:layout_height="wrap_content"
+            android:text="Playlist_Name"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:orientation="horizontal"
+        android:gravity="start"
+        >
+        <TextView
+            android:layout_marginLeft="50dp"
+            android:textStyle="bold"
+            android:id="@+id/video_tags"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:textColor="#a0a0a0"
+            android:layout_height="wrap_content"
+            android:text="Tags"/>
+    </LinearLayout>
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:background="#D3D3D3"-->
+<!--        />-->
+
+
+</LinearLayout>

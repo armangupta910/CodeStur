@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="start"
+    android:id="@+id/playlist_click">
+    <ImageView
+        android:id="@+id/banner"
+        android:elevation="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="120dp"
+        android:layout_height="90dp"
+        android:src="@drawable/banner"
+        />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Playlist_Name"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+        <TextView
+            android:id="@+id/tags_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tags"
+            android:textStyle="bold"
+            android:textColor="#a0a0a0"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+        <TextView
+            android:id="@+id/number_of_videos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Number of Videos"
+            android:textStyle="bold"
+            android:textColor="#a0a0a0"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+    </LinearLayout>
+
+
+</LinearLayout>
