@@ -132,11 +132,13 @@ class MainActivity : AppCompatActivity() {
         dialog.findViewById<TextView>(R.id.playlist).setOnClickListener {
             dialog.hide()
             supportFragmentManager.beginTransaction().replace(R.id.frame,playlist_list_fragment(),"Current_Fragment").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+            findViewById<FrameLayout>(R.id.frame).alpha=1F
         }
 
         dialog.findViewById<TextView>(R.id.archived).setOnClickListener {
             dialog.hide()
             supportFragmentManager.beginTransaction().replace(R.id.frame,archived_fragment(),"Current_Fragment").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+            findViewById<FrameLayout>(R.id.frame).alpha=1F
         }
     }
 
