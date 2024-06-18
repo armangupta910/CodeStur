@@ -2,12 +2,14 @@ package com.example.codestur
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -21,6 +23,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.canteeniitj.Adaptor_For_Video_List
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -63,32 +68,39 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog(){
 
-
-
         val acct = GoogleSignIn.getLastSignedInAccount(this)
-        val personPhoto: Uri? = null
+        val personPhoto: String = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        Log.d(TAG, personPhoto)
         if (acct != null) {
             val personName = acct.displayName
             val personGivenName = acct.givenName
             val personFamilyName = acct.familyName
             val personEmail = acct.email
             val personId = acct.id
-            val personPhoto = acct.photoUrl
-
+//            val personPhoto = acct.photoUrl
         }
         val dialog=Dialog(this)
         dialog.setContentView(R.layout.dialog)
 
+        val profileImage:ImageView = dialog.findViewById<ImageView>(R.id.profileImage)
+
+        val imageURL = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+        Glide.with(this)
+            .load(imageURL)
+            .apply(RequestOptions().placeholder(R.drawable.person).error(R.drawable.person))
+            .into(profileImage)
+
+
         dialog.findViewById<ImageView>(R.id.youtube).setOnClickListener {
-            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
             startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/@Codestur")))
         }
         dialog.findViewById<ImageView>(R.id.instagram).setOnClickListener {
-            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
             startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.instagram.com/armangupta910_____/?igshid=MzNlNGNkZWQ4Mg%3D%3D")))
         }
         dialog.findViewById<ImageView>(R.id.linkedin).setOnClickListener {
-            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this,"Youtube Clicked",Toast.LENGTH_SHORT).show()
             startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.linkedin.com/in/arman-gupta-67b91a172")))
         }
         dialog.findViewById<Button>(R.id.signout).setOnClickListener {
@@ -105,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.getWindow()?.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
         findViewById<FrameLayout>(R.id.frame).alpha=0.5F
-        dialog.findViewById<ImageView>(R.id.profile).setImageURI(personPhoto)
+//        dialog.findViewById<ImageView>(R.id.profile).setImageURI(personPhoto)
         dialog.show()
         dialog.setOnDismissListener {
             findViewById<FrameLayout>(R.id.frame).alpha=1F
@@ -117,6 +129,15 @@ class MainActivity : AppCompatActivity() {
         dialog.findViewById<TextView>(R.id.email).setText(FirebaseAuth.getInstance().currentUser?.email)
         dialog.findViewById<ProgressBar>(R.id.progress_email).isVisible=false
         dialog.findViewById<TextView>(R.id.email).isVisible=true
+        dialog.findViewById<TextView>(R.id.playlist).setOnClickListener {
+            dialog.hide()
+            supportFragmentManager.beginTransaction().replace(R.id.frame,playlist_list_fragment(),"Current_Fragment").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+        }
+
+        dialog.findViewById<TextView>(R.id.archived).setOnClickListener {
+            dialog.hide()
+            supportFragmentManager.beginTransaction().replace(R.id.frame,archived_fragment(),"Current_Fragment").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

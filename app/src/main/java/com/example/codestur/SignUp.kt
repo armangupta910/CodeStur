@@ -121,7 +121,7 @@ class SignUp : AppCompatActivity() {
             }
         }
         else {
-            Toast.makeText(this, "Sign IN Failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Sign in Failed", Toast.LENGTH_SHORT).show()
             findViewById<ProgressBar>(R.id.progi).visibility = View.GONE
             findViewById<LinearLayout>(R.id.screen).alpha = 1F
         }
@@ -135,7 +135,7 @@ class SignUp : AppCompatActivity() {
             startActivity(Intent(this,MainActivity::class.java))
             finish()
         }.addOnFailureListener {
-            Toast.makeText(this,"LogIN Failed",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show()
             findViewById<ProgressBar>(R.id.progi).visibility=View.GONE
             findViewById<LinearLayout>(R.id.screen).alpha=1F
         }

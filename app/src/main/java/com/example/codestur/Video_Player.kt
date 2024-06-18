@@ -3,9 +3,12 @@ package com.example.codestur
 
 
 import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.media.MediaController2
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -18,41 +21,62 @@ import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class Video_Player : AppCompatActivity() {
+
+    private lateinit var youtubePlayerView: YouTubePlayerView
+
+    fun extractYouTubeVideoId(videoUrl: String): String? {
+        val prefix = "v="
+        val startIndex = videoUrl.indexOf(prefix) + 2
+        return videoUrl.substring(startIndex)
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_player)
         supportActionBar?.hide()
-        val web=findViewById<WebView>(R.id.webview)
-        val frame=findViewById<FrameLayout>(R.id.customview)
-        web.loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/OVQuuPX-_hE?si=rUCHg8M6onwsFjeI\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\" allowfullscreen></iframe>","text/html","utf-8")
-        web.settings.javaScriptEnabled = true
-//        web.settings.loadWithOverviewMode = true
-        web.settings.useWideViewPort = true
-//        web.settings.loadWithOverviewMode = true
-        web.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-//        web.settings.setSupportZoom(true)
 
+        var link:String = intent.getStringExtra("Link") as String
+        link = extractYouTubeVideoId(link).toString()
 
-        web.webChromeClient = object : WebChromeClient() {
-            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
-                super.onShowCustomView(view, callback)
-                web.visibility= View.GONE
-                frame.visibility= View.VISIBLE
-                frame.addView(view)
+        youtubePlayerView = findViewById(R.id.youtube_player_view)
+
+        youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
+                val videoId = link // Replace with your YouTube video ID
+                Log.d(TAG,"Link :- ${link}")
+                youTubePlayer.loadVideo(videoId, 0f)
+            }
+        })
+
+        youtubePlayerView.addFullScreenListener(object : YouTubePlayerFullScreenListener {
+            override fun onYouTubePlayerEnterFullScreen() {
+                youtubePlayerView.layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
             }
 
-            override fun onHideCustomView() {
-                super.onHideCustomView()
-                web.visibility= View.VISIBLE
-                frame.visibility= View.GONE
-                // Hande exiting fullscreen mode here
+            override fun onYouTubePlayerExitFullScreen() {
+                youtubePlayerView.layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                )
             }
-        }
-
-
+        })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        youtubePlayerView.release()
     }
 }
